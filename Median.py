@@ -3,12 +3,15 @@ import copy
 
 
 def main():
-    number = input("Введите количество элементов в массиве: ")
+    n = int(input("Введите количество элементов в массиве: "))
 
     # заполняем случайными значениями
     arr = []
-    for i in range(int(number)):
+    for i in range(n):
         arr.append(randint(0, 1000))
+
+    # создаем копию массива
+    arr_test = copy.copy(arr)
 
     # выводим на экран исходный массив
     for elem in arr:
@@ -23,19 +26,22 @@ def main():
     print(f"Медиана: {result}")
 
     # проверяем результат на отсортированном массиве
-    arr.sort()
+    arr_test.sort()
     print(f"Проверка:")
-    for i, elem in enumerate(arr):
+    for i, elem in enumerate(arr_test):
         if i == median_index:
-            print(f"\033[46m{elem}\033[40m", end=" ")
+            print(f"\033[46m{elem}\033[47m", end=" ")
         else:
-            print(f"\033[40m{elem}", end=" ")
+            print(f"\033[47m{elem}", end=" ")
 
 
-def find_sorted(arr, index):
-    # создаем копию массива
-    array = copy.copy(arr)
-
+def find_sorted(array, k):
+    """
+    Алгоритм выбора
+    :param array: массив (будет изменен!)
+    :param k: номер по величине элемента в массиве
+    :return: значение номера по величине элемента в массиве
+    """
     # определяем границы области
     left = 0
     right = len(array) - 1
@@ -43,7 +49,7 @@ def find_sorted(arr, index):
     # пока область не пуста
     while left < right:
         # опорное значение
-        pivot = array[index]
+        pivot = array[k]
 
         i = left
         j = right
@@ -63,12 +69,12 @@ def find_sorted(arr, index):
                 j -= 1
 
         # если опорный элемент правее разбиения
-        if j < index:
+        if j < k:
             left = i
         # если опорный элемент левее разбиения
-        if i > index:
+        if i > k:
             right = j
-    return array[index]
+    return array[k]
 
 
 if __name__ == "__main__":
